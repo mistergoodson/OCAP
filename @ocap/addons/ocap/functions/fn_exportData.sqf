@@ -5,7 +5,7 @@
 	Converts all capture data (events + entities) into a JSON format and outputs this string
 	to the OCAP extension (which handles JSON file writing/moving).
 */
-
+#include "\x\ocap\addons\main\script_component.hpp"
 ["Exporting capture data..."] call ocap_fnc_log;
 
 // Same as isKindOf, but can be tested against multiple types
@@ -22,9 +22,9 @@ _isKindOf = {
 	_bool
 };
 
-ocap_capture = false;
-ocap_endFrameNo = ocap_captureFrameNo;
-ocap_exportCapFilename = format["%1_%2.json", missionName, floor(random(1000))]; // Filename used for capture data file
+ocap_main_capture = false;
+ocap_main_endFrameNo = ocap_main_FrameNo;
+ocap_main_exportCapFilename = format["%1_%2.json", missionName, floor(random(1000))]; // Filename used for capture data file
 
 _br = toString [13, 10];
 _tab = toString[9];
@@ -47,7 +47,7 @@ _tankClasses = [
 
 // Write main header
 _header = format['{"worldName":"%1","missionName":"%2","missionAuthor":"%3","captureDelay":%4,"endFrame":%5
-',worldName, briefingName, getMissionConfigValue ["author", ""], ocap_frameCaptureDelay, ocap_endFrameNo];
+',worldName, briefingName, getMissionConfigValue ["author", ""], ocap_main_frameCaptureDelay, ocap_main_endFrameNo];
 [_header, true] call ocap_fnc_callExtension;
 
 // Write entities
@@ -86,7 +86,7 @@ _jsonUnits = ',"entities":[';
 				Command for listing parent classes of a vehicle:
 				_parents = [(configFile >> "CfgVehicles" >> typeOf (vehicle player)), true] call BIS_fnc_returnParents;
 				hint str(_parents);
-				
+
 				Command for getting vehicle icon used by Arma:
 				hint getText (configFile >> "CfgVehicles" >> typeOf (vehicle player) >> "icon");
 			*/
@@ -176,10 +176,10 @@ _jsonUnits = ',"entities":[';
 	};
 
 	_jsonUnitFooter = '}'; // End of this unit's JSON object
-	
-	if (_forEachIndex != ((count ocap_entitiesData)-1)) then {_jsonUnitFooter = _jsonUnitFooter + ","};
+
+	if (_forEachIndex != ((count ocap_main_entitiesData)-1)) then {_jsonUnitFooter = _jsonUnitFooter + ","};
 	[_jsonUnitFooter, true] call ocap_fnc_callExtension;
-} forEach ocap_entitiesData;
+} forEach ocap_main_entitiesData;
 [']', true] call ocap_fnc_callExtension; // Add cap to entities array
 
 
@@ -207,18 +207,18 @@ _jsonEvents = ',"events":[';
 		};
 	};
 
-	if (_forEachIndex != ((count ocap_eventsData)-1)) then {_jsonEvents = _jsonEvents + ","};
+	if (_forEachIndex != ((count ocap_main_eventsData)-1)) then {_jsonEvents = _jsonEvents + ","};
 
 	if ((count _jsonEvents) >= _bufferSize) then {
 		[_jsonEvents, true] call ocap_fnc_callExtension;
 		_jsonEvents = "";
 	};
-} forEach ocap_eventsData;
+} forEach ocap_main_eventsData;
 [_jsonEvents, true] call ocap_fnc_callExtension;
 
 [']}', true] call ocap_fnc_callExtension; // End of JSON file
 ['', false] call ocap_fnc_callExtension;
 
 
-ocap_capture = true;
+ocap_main_capture = true;
 ["Exporting complete."] call ocap_fnc_log;

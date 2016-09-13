@@ -17,45 +17,5 @@
 	_this select 0: OBJECT - Unit that fired
 	_this select 6: OBJECT - Projectile that was fired
 */
-
-_unit = _this select 0;
-_projectile = _this select 6;
-_frame = ocap_captureFrameNo;
-
-_unitData = (ocap_entitiesData select (_unit getVariable "ocap_id"));
-
-// Wait until bullet lands, capture position
-_lastPos = [];
-waitUntil {
-	_pos = getPosATL _projectile;
-
-	// We exit if projectile no longer exists
-	if (((_pos select 0) == 0) || isNull _projectile) exitWith {true};
-
-	_lastPos = _pos;
-	false;
-};
-
-
-/*_lastVelocity = vectorMagnitude velocity _projectile;
-waitUntil {
-	_pos = getPosATL _projectile;
-	_velocity = vectorMagnitude velocity _projectile;
-	_velocityChange = _lastVelocity - _velocity;
-
-	// We exit if projectile no longer exists or significant change in velocity (impact/ricochet)
-	if (((_pos select 0) == 0) || isNull _projectile || (_velocityChange >= 50)) exitWith {true};
-
-	_lastPos = _pos;
-	_lastVelocity = _velocity;
-	false;
-};*/
-
-
-if ((count _lastPos) != 0) then {
-/*	_m = createVehicle ["Sign_Sphere100cm_F", _lastPos, [], 0, "NONE"];
-	_m setPosATL _lastPos;*/
-
-	// Append to existing framesFired data for this unit
-	(_unitData select 2) pushBack [_frame, [_lastPos select 0, _lastPos select 1]];
-};
+#include "\x\ocap\addons\main\script_component.hpp"
+ocap_main_projectiles pushback [_this select 6,_this select 0,ocap_main_FrameNo,getPos (_this select 6)];
