@@ -8,11 +8,11 @@
 	Parameters:
 	_this: OBJECT - Entity that connected.
 */
+#include "\x\ocap\addons\main\script_component.hpp"
 
 _name = _this;
-
-ocap_eventsData pushBack [
-	ocap_captureFrameNo,
+ocap_main_eventsData pushBack [
+	ocap_main_FrameNo,
 	"connected",
 	_name
 ];
