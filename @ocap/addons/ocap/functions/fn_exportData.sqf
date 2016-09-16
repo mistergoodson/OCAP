@@ -10,8 +10,7 @@
 
 // Same as isKindOf, but can be tested against multiple types
 _isKindOf = {
-	_testClass = _this select 0;
-	_classes = _this select 1;
+    params ["_testClass", "_classes"];
 	_bool = false;
 	{
 		if (_testClass isKindOf _x) exitWith {
@@ -53,12 +52,9 @@ _header = format['{"worldName":"%1","missionName":"%2","missionAuthor":"%3","cap
 // Write entities
 _jsonUnits = ',"entities":[';
 {
-	_properties = _x select 0;
-	_positions = _x select 1;
+    _x params ["_properties", "_positions"];
 
-	_startFrameNo = _properties select 0;
-	_type = _properties select 1;
-	_id = _properties select 2;
+    _properties params ["_startFrameNo", "_type", "_id"];
 	_isUnit = (_type == "unit");
 
 	// Write entity header
@@ -86,7 +82,7 @@ _jsonUnits = ',"entities":[';
 				Command for listing parent classes of a vehicle:
 				_parents = [(configFile >> "CfgVehicles" >> typeOf (vehicle player)), true] call BIS_fnc_returnParents;
 				hint str(_parents);
-				
+
 				Command for getting vehicle icon used by Arma:
 				hint getText (configFile >> "CfgVehicles" >> typeOf (vehicle player) >> "icon");
 			*/
@@ -158,8 +154,7 @@ _jsonUnits = ',"entities":[';
 		_framesFired = _x select 2;
 		_jsonFramesFired = ',"framesFired":[';
 		{
-			_frameNum = _x select 0;
-			_projectilePos = _x select 1;
+            _x params ["_frameNum", "_projectilePos"];
 			_jsonFramesFired = _jsonFramesFired + format['
 			[%1,%2]', _frameNum, _projectilePos];
 
@@ -176,7 +171,7 @@ _jsonUnits = ',"entities":[';
 	};
 
 	_jsonUnitFooter = '}'; // End of this unit's JSON object
-	
+
 	if (_forEachIndex != ((count ocap_entitiesData)-1)) then {_jsonUnitFooter = _jsonUnitFooter + ","};
 	[_jsonUnitFooter, true] call ocap_fnc_callExtension;
 } forEach ocap_entitiesData;
@@ -187,19 +182,18 @@ _jsonUnits = ',"entities":[';
 _jsonEvents = ',"events":[';
 {
 
-	_frameNum = _x select 0;
-	_type = _x select 1;
+    _x params ["_frameNum", "_type"];
 
 	switch (true) do {
-		case (_type == "killed" || _type == "hit"): {
+		case (_type == "killed" || {_type == "hit"}): {
 			_victimId = _x select 2;
 			_causedByInfo = _x select 3;
 			_distance = _x select 4;
-
+        
 			_jsonEvents = _jsonEvents + format['
 			[%1,"%2",%3,%4,"%5"]', _frameNum, _type, _victimId, _causedByInfo, round(_distance)];
 		};
-		case (_type == "connected" || _type == "disconnected"): {
+		case (_type == "connected" || {_type == "disconnected"}): {
 			_name = _x select 2;
 
 			_jsonEvents = _jsonEvents + format['
@@ -218,7 +212,6 @@ _jsonEvents = ',"events":[';
 
 [']}', true] call ocap_fnc_callExtension; // End of JSON file
 ['', false] call ocap_fnc_callExtension;
-
 
 ocap_capture = true;
 ["Exporting complete."] call ocap_fnc_log;

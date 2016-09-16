@@ -3,7 +3,7 @@
 
 	Description:
 	Calls extension (dll) and supplies given arguments.
-	
+
 	Extension is intended to be called multiple times to write
 	successive JSON 'chunks' to a file. Once there is no more data
 	to write, the extension should be called a final time (transfer mode)
@@ -15,8 +15,7 @@
 	_this select 1: BOOLEAN - True for write mode, false for transfer mode.
 */
 
-_output = _this select 0;
-_write = _this select 1;
+params ["_output", "_write"];
 
 if (_write) then {
 	// Write string to file

@@ -17,8 +17,7 @@
 	_this select 1: OBJECT - Killer
 */
 
-_victim = _this select 0;
-_killer = _this select 1;
+params ["_victim", "_killer"];
 
 if (_victim getVariable ["ocap_exclude", false]) exitWith {}; // Just in case
 
@@ -27,7 +26,7 @@ _victimId = _victim getVariable "ocap_id";
 // If killer is null, then unit likely killed by fire/collision/exploding vehicle
 _eventData = [ocap_captureFrameNo, "killed", _victimId, ["null"], -1];
 if (!isNull _killer) then {
-	
+
 	_killerInfo = [];
 	if (_killer isKindOf "CAManBase") then {
 		_killerInfo = [

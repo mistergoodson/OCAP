@@ -30,7 +30,7 @@ waitUntil {
 	_pos = getPosATL _projectile;
 
 	// We exit if projectile no longer exists
-	if (((_pos select 0) == 0) || isNull _projectile) exitWith {true};
+	if ((_pos select 0) == 0 || {isNull _projectile}) exitWith {true};
 
 	_lastPos = _pos;
 	false;
@@ -44,7 +44,7 @@ waitUntil {
 	_velocityChange = _lastVelocity - _velocity;
 
 	// We exit if projectile no longer exists or significant change in velocity (impact/ricochet)
-	if (((_pos select 0) == 0) || isNull _projectile || (_velocityChange >= 50)) exitWith {true};
+	if (((_pos select 0) == 0) || {isNull _projectile} || {(_velocityChange >= 50)}) exitWith {true};
 
 	_lastPos = _pos;
 	_lastVelocity = _velocity;
