@@ -17,8 +17,7 @@
 	_this select 1: OBJECT - Hitter
 */
 
-_victim = _this select 0;
-_hitter = _this select 1;
+params ["_victim", "_hitter"];
 
 if (_victim getVariable ["ocap_exclude", false]) exitWith {}; // Just in case
 

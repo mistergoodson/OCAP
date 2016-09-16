@@ -17,8 +17,7 @@ ocap_endFrameNo = 0; // Frame number at end of mission
 
 // Add mission EHs
 addMissionEventHandler ["EntityKilled", {
-	_victim = _this select 0;
-	_killer = _this select 1;
+    params ["_victim", "_killer"];
 
 	// Check entity is initiliased with OCAP
 	// TODO: Set ocap_exclude to true if unit is not going to respawn (e.g. AI)
@@ -34,8 +33,7 @@ addMissionEventHandler ["EntityKilled", {
 // Transfer ID from old unit to new unit
 // Mark old body to now be excluded from capture
 addMissionEventHandler ["EntityRespawned", {
-	_newEntity = _this select 0;
-	_oldEntity = _this select 1;
+    params ["_newEntity", "_oldEntity"];
 
 	if (_oldEntity getVariable ["ocap_isInitialised", false]) then {
 		_newEntity setVariable ["ocap_isInitialised", true];

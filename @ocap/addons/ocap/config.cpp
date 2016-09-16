@@ -5,6 +5,7 @@ class CfgPatches
 		name = "OCAP";
 		author = "MisterGoodson";
 		requiredAddons[] = {"A3_Functions_F"};
+		url="https://github.com/mistergoodson/OCAP";
 		units[] = {};
 		weapons[] = {};
 	};
