@@ -24,10 +24,15 @@ if (_victim getVariable ["ocap_exclude", false]) exitWith {}; // Just in case
 
 _victimId = _victim getVariable "ocap_id";
 
-// If killer is null, then unit likely killed by fire/collision/exploding vehicle
 _eventData = [ocap_captureFrameNo, "killed", _victimId, ["null"], -1];
+
+// If killer is null, then unit likely killed by fire/collision/exploding vehicle/ACE3
+private _aceLastSourceOfDamage = _victim getVariable ["ace_medical_lastDamageSource", objNull];
+if (!isNull _aceLastSourceOfDamage) then {
+	_killer = _aceLastSourceOfDamage;
+};
+
 if (!isNull _killer) then {
-	
 	_killerInfo = [];
 	if (_killer isKindOf "CAManBase") then {
 		_killerInfo = [
