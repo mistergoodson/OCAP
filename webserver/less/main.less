@@ -1,0 +1,71 @@
+* {
+	&::-webkit-scrollbar {
+		width: 8px;
+		height: 8px;
+	}
+
+	&::-webkit-scrollbar-track, ::-webkit-scrollbar-corner {
+			background: transparent;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-color: #6E6E6E;
+	}
+}
+
+html, body, #map {
+	color: #F2F2F2;
+	cursor: default;
+	font-family: "Roboto", Arial, sans-serif;
+	font-size: 13px;
+	height: 100%;
+	margin: 0;
+	overflow: hidden;
+	padding: 0;
+	width: 100%;
+}
+
+#map {
+	left: 0;
+	position: absolute;
+	top: 0;
+	z-index: 0;
+}
+
+#hint {
+	display: none;
+	background-color: rgba(0,0,0,0.7);
+	position: absolute;
+	margin: auto;
+	left: 0;
+	right: 0;
+	bottom: 100px;
+	min-height: 30px;
+	width: 350px;
+	text-align: center;
+	padding: 12px;
+}
+
+.blufor {
+	color: @blufor-color;
+}
+
+.opfor {
+	color: @opfor-color;
+}
+
+.ind {
+	color: @ind-color;
+}
+
+.civ {
+	color: @civ-color;
+}
+
+.bold {
+	font-weight: 700;
+}
+
+.medium {
+	font-weight: 500;
+}
